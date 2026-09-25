@@ -1,0 +1,28 @@
+# Graph-based collaborative filtering models.
+#   LightGCN, NGCF, NCL, SpectralCF, GCMC
+#
+# Usage:
+#   --config_files="configs/common.yaml configs/general.yaml configs/graph.yaml"
+#   (inherits negative sampling / eval_args / eval_batch_size from general.yaml)
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# Prerequisite: scipy < 1.13
+#   These models use dok_matrix._update() when building the adjacency matrix,
+#   an API removed in scipy 1.13, so they die with AttributeError.
+#     conda activate paella && pip install "scipy<1.13"
+#   (Do not work around it with dict.update: nnz becomes 0 and it silently yields an empty matrix)
+# ─────────────────────────────────────────────────────────────────────────────
+
+# LightGCN recomputes propagation over the whole graph for every batch. With small batches,
+# the number of steps per epoch directly becomes the number of propagations, making it very slow.
+# Raising 2048 -> 8192 cuts steps per epoch to 1/4, with little difference in results.
+train_batch_size: 8192
+
+# Graph propagation is heavy, so time per epoch is several times that of SASRec.
+# Wait until early stopping kicks in, but keep the upper limit low.
+epochs: 200
+stopping_step: 10
+
+# Model hyperparameters are auto-loaded from recbole/properties/model/LightGCN.yaml.
+#   embedding_size: 64 / n_layers: 2 / reg_weight: 1e-05
+# To change them, use the command line: --n_layers=3 --reg_weight=1e-4

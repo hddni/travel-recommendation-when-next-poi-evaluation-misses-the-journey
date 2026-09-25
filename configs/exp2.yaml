@@ -1,0 +1,26 @@
+# EXP2 (travelset set prediction) training/evaluation defaults.
+#
+# exp2 is a standalone pipeline that does not use the RecBole dataloader, so configs/common.yaml
+# does not apply. Hence a separate file with the same role.
+#
+# Priority:  command-line arguments > this file > (error if missing)
+#   If a variable is left empty in run.sh, no argument is passed, so this value is used.
+#   If the variable is filled in, it is passed as an argument and overrides this value.
+
+# Training
+epochs: 100
+stopping_step: 10
+train_batch_size: 512
+learning_rate: 0.001
+
+# Model
+hidden_size: 64
+n_layers: 2
+n_heads: 2
+dropout: 0.2
+max_len: 200
+
+# Evaluation
+eval_batch_size: 256
+topk: [5, 10, 20]
+valid_metric: ndcg@10

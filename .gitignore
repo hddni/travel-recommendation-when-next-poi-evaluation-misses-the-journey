@@ -1,0 +1,36 @@
+# Data (raw data is not distributed due to copyright issues. Build it yourself with preprocess/)
+#  A leading / ignores only the root. Without it, recbole/data/dataset/ (a RecBole
+#  core module) and recbole/properties/dataset/ would be ignored too.
+/dataset/
+#  Dataset configs produced by preprocess/. RecBole's default yamls are committed.
+recbole/properties/dataset/foursquare-*.yaml
+recbole/properties/dataset/gowalla-*.yaml
+
+# Experiment outputs
+/results/
+/saved/
+/log/
+/log_tensorboard/
+/tables/
+
+# Archives per threshold combination
+/legacy/
+
+# Figures
+/figures/
+
+# Personal experiment scripts
+run0.sh
+run1.sh
+*.out
+
+# RecBole docs build
+/docs/
+
+__pycache__/
+*.pyc
+*.log
+*.pth
+*.egg-info/
+.vscode/
+.idea/

@@ -1,0 +1,31 @@
+# Experiment settings applied commonly to all models and all datasets.
+#
+# Dataset-level settings (load_col, coordinates, MAX_ITEM_LIST_LENGTH, etc.) are
+# auto-loaded from recbole/properties/dataset/<dataset>.yaml, so they are not here.
+# Model-level settings (hidden_size, n_layers, etc.) are
+# auto-loaded from recbole/properties/model/<Model>.yaml.
+#
+# This file alone is not enough. A model-family file must be passed along with it:
+#   --config_files="configs/common.yaml configs/sequential.yaml"
+#
+# eval_args is not used. Depending on the model type, RecBole automatically applies
+# quick_start_config/{sequential,context-aware,knowledge_base}.yaml.
+
+# Environment
+#  seed comes from SEEDS (556~565) in runtime.py and the GPU is auto-selected, so they are not set here.
+reproducibility: True
+show_progress: True     # training/evaluation tqdm progress bar
+
+# Training
+epochs: 300
+train_batch_size: 2048
+learning_rate: 0.001
+stopping_step: 10
+eval_step: 1
+
+# Evaluation
+metrics: ['Recall', 'NDCG', 'MRR', 'Hit']
+topk: [5, 10, 20]
+valid_metric: NDCG@10
+eval_batch_size: 4096
+metric_decimal_place: 4

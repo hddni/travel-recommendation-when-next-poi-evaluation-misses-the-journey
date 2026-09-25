@@ -1,0 +1,39 @@
+# General (collaborative filtering) models.
+#   BPR, NeuMF, LightGCN, NGCF, DMF, ItemKNN ...
+#
+# Usage:
+#   --config_files="configs/common.yaml configs/general.yaml"
+#
+# Align eval_args with sequential: LS (leave-one-out) + TO (chronological). Two reasons:
+#   1) Only with the same split as SASRec can performance be compared directly across models.
+#   2) The overall.yaml default order: RO is a shuffle, so **the split changes with every seed**.
+#      If the split changes, PersonalRepeat's history (up to just before test) and the seen/new
+#      decomposition end up measuring different things per seed, and the comparison does not hold.
+eval_args:
+  split: {'LS': 'valid_and_test'}
+  order: TO
+  group_by: user
+  mode: full
+
+# To revert to the RecBole default (random 8:1:1), delete the block above or replace it with the following:
+# eval_args:
+#   split: {'RS': [0.8, 0.1, 0.1]}
+#   order: RO
+#   group_by: user
+#   mode: full
+
+# BPR-family pairwise losses die with KeyError: 'neg_item_id' if there are no negative samples.
+train_neg_sample_args:
+  distribution: uniform
+  sample_num: 1
+  alpha: 1.0
+  dynamic: False
+  candidate_num: 0
+
+# Note: in full-sort evaluation, eval_batch_size means something different than for sequential.
+#   sequential : number of "sequences (= users)" per batch
+#   general    : number of "user x item score cells" per batch
+#                (batch_num = eval_batch_size // item_num in general_dataloader.py)
+# Leaving it at 4096 means that with as few as 10k items, users are evaluated one at a time, which is extremely slow.
+# 20M cells makes the score tensor about 80MB, which is safe and fast enough.
+eval_batch_size: 20000000

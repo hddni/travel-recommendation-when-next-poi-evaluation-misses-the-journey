@@ -1,0 +1,12 @@
+# Sequential models that use loss_type: CE.
+#   SASRec, GRU4Rec, BERT4Rec, NARM, Caser, SRGNN, STAMP, LightSANs ...
+#
+# Usage:
+#   --config_files="configs/common.yaml configs/sequential.yaml"
+#
+# eval_args is set automatically by quick_start_config/sequential.yaml to
+# split={'LS':'valid_and_test'}, order=TO, mode=full, repeatable=True.
+
+# CE loss uses a softmax over all items, so it cannot be used together with negative sampling.
+# (configurator.py rejects it with "should be None when the loss_type is CE")
+train_neg_sample_args: ~
