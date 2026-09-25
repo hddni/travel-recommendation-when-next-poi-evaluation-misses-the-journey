@@ -72,10 +72,6 @@ from daily_label import (  # noqa: E402
 )
 import daily_label  # noqa: E402
 
-# Old stage-2 rule constant. Not used by the current foursquare path (kept for build_gowalla compatibility).
-PAIR_RVR_THRESHOLD = 10
-
-
 
 # k-core (both users and items at least this many times). Use the dict below to vary it per country.
 KCORE = 5

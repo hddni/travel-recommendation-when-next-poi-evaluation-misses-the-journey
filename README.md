@@ -40,7 +40,7 @@ In a CUDA environment the GPU is found and used automatically; otherwise it runs
 
 ## Data preparation
 
-The datasets are not distributed due to copyright. Download the originals and build them with `preprocess/`. If needed, you can request them at cucumber_love@gnu.ac.kr.
+The datasets are not distributed due to copyright. Download the originals and build them with `preprocess/`.
 
 ### 1. Download the originals
 
@@ -63,13 +63,14 @@ UVR(v) = unique visitors / total check-ins             higher = travel
 RVR(v) = share of visitors who visited 2+ times        higher = routine
 ```
 
-Category values are the mean of per-venue values (venues with fewer than 10 check-ins excluded).
+Stage 1 uses the mean of per-venue values within each Foursquare category (venues with fewer than 10 check-ins excluded). Gowalla has no categories, so the same is done per 0.5° grid bin; everything else is identical.
 
 | Stage | Condition | Label |
 |---|---|---|
 | Stage 1 (category) A | RVR ≥ 0.5 **AND** UVR ≤ 0.25 | all routine |
 | Stage 1 (category) B | RVR < 0.5 **AND** UVR > 0.25 | all travel |
 | Stage 2 (user-venue pair, C/E only) | visits ≥ 2 **AND** ≥ 4× the average of other users at the same venue | routine |
+| Stage 2, single-visitor venue | visits ≥ 4 | routine |
 
 ### 3. Thresholds
 
@@ -105,7 +106,7 @@ All three arms drop venues without a category or with invalid coordinates, then 
 | `build_travel.py` / `build_routine.py` / `build_raw.py` | The three EXP1 arms |
 | `build_travelset.py` | EXP2 data (last 3 travel check-ins = test, the one before = valid) |
 | `build_tourist_label.py` | Tourist-purity labels (optional) |
-| `build_gowalla.py` | Gowalla version (optional) |
+| `build_gowalla.py` | Gowalla version, grid bins instead of categories (optional) |
 | `dataset_stats.py` / `export_category_stats.py` | For inspecting statistics |
 
 ---
