@@ -1,5 +1,7 @@
 # POI Routine / Travel Decomposition
 
+This repository contains the code for the paper *When Next POI Evaluation Misses the Journey*.
+
 Built on top of **[RecBole](https://github.com/RUCAIBox/RecBole)**. `recbole/` is the
 original RecBole with a few evaluation metrics added ([RecBole modifications](#recbole-modifications)).
 
